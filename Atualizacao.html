@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundo Pet - O melhor para o seu melhor amigo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            500: '#8b5cf6',
+                            600: '#6b46c1',
+                            700: '#5b21b6',
+                            800: '#4a2e8a',
+                        },
+                        accent: {
+                            400: '#fbbf24',
+                            500: '#f6ad55',
+                            600: '#ed8936',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-header {
+            background: rgba(107, 70, 193, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .animate-bounce-slow {
+            animation: bounce 3s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(-5%); }
+            50% { transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white min-h-screen flex flex-col">
+
+    <!-- Top Banner -->
+    <div class="bg-brand-800 text-white text-xs sm:text-sm py-2 px-4 text-center font-medium flex justify-between items-center px-6">
+        <span class="mx-auto flex items-center gap-2">
+            <i class="fa-solid fa-truck-fast text-accent-500"></i>
+            <span>Frete GRÁTIS nas compras acima de R$ 149,00 para toda a região!</span>
+        </span>
+        <div class="hidden md:flex gap-4 text-xs text-purple-200">
+            <span><i class="fa-solid fa-phone mr-1"></i> (11) 99999-8888</span>
+            <span><i class="fa-solid fa-clock mr-1"></i> Seg-Sáb: 08h às 20h</span>
+        </div>
+    </div>
+
+    <!-- Sticky Header Navbar -->
+    <header class="sticky top-0 z-40 glass-header text-white shadow-lg transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center gap-4">
+            <!-- Logo -->
+            <a href="#home" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 bg-accent-500 rounded-2xl flex items-center justify-center text-white shadow-md transform group-hover:rotate-12 transition-transform">
+                    <i class="fa-solid fa-paw text-xl"></i>
+                </div>
+                <span class="text-2xl font-black tracking-tight text-white">Mundo<span class="text-accent-400">Pet</span></span>
+            </a>
+
+            <!-- Search Bar (Desktop) -->
+            <div class="hidden md:flex flex-1 max-w-md mx-4 relative">
+                <input type="text" id="globalSearch" placeholder="Buscar rações, brinquedos, remédios..." 
+                    class="w-full pl-10 pr-4 py-2 rounded-full bg-white/10 text-white placeholder-purple-200 border border-white/20 focus:outline-none focus:bg-white focus:text-gray-800 focus:placeholder-gray-400 transition-all text-sm">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-purple-200"></i>
+            </div>
+
+            <!-- Nav Links -->
+            <nav class="hidden lg:flex items-center space-x-6 text-sm font-semibold">
+                <a href="#home" class="hover:text-accent-400 transition-colors">Início</a>
+                <a href="#categorias" class="hover:text-accent-400 transition-colors">Categorias</a>
+                <a href="#produtos" class="hover:text-accent-400 transition-colors">Produtos</a>
+                <a href="#servicos" class="hover:text-accent-400 transition-colors">Serviços</a>
+                <a href="#fidelidade" class="hover:text-accent-400 transition-colors">Fidelidade</a>
+                <a href="#contato" class="hover:text-accent-400 transition-colors">Agendamento</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center space-x-4">
+                <button id="cartBtn" class="relative p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                    <i class="fa-solid fa-basket-shopping text-lg"></i>
+                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-amber-500 text-slate-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center scale-0 transition-transform">0</span>
+                </button>
+                <a href="#contato" class="hidden sm:inline-flex bg-accent-500 hover:bg-accent-600 text-slate-900 font-bold px-4 py-2 rounded-xl transition-all shadow-md hover:shadow-lg text-sm items-center gap-2">
+                    <i class="fa-regular fa-calendar-check"></i> Agendar
+                </a>
+                <button id="mobileMenuBtn" class="lg:hidden text-2xl p-1 focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-brand-800 border-t border-purple-700 px-6 py-4 space-y-3">
+            <a href="#home" class="block py-2 text-white font-medium hover:text-accent-400">Início</a>
+            <a href="#categorias" class="block py-2 text-white font-medium hover:text-accent-400">Categorias</a>
+            <a href="#produtos" class="block py-2 text-white font-medium hover:text-accent-400">Produtos</a>
+            <a href="#servicos" class="block py-2 text-white font-medium hover:text-accent-400">Serviços</a>
+            <a href="#fidelidade" class="block py-2 text-white font-medium hover:text-accent-400">Fidelidade</a>
+            <a href="#contato" class="block py-2 text-white font-medium hover:text-accent-400">Agendar Serviço</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section id="home" class="relative overflow-hidden bg-gradient-to-br from-brand-600 via-brand-700 to-brand-800 text-white py-16 lg:py-24">
+            <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 z-10 text-center md:text-left">
+                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-accent-400 text-xs sm:text-sm font-semibold border border-white/10">
+                        <i class="fa-solid fa-heart text-red-400"></i> Amamos pets tanto quanto você!
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
+                        Tudo que seu pet precisa em um só lugar.
+                    </h1>
+                    <p class="text-purple-100 text-base sm:text-lg max-w-xl mx-auto md:mx-0">
+                        Produtos premium, atendimento veterinário especializado, banho & tosa amoroso e o melhor programa de pontos para seu bichinho.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2">
+                        <a href="#produtos" class="bg-accent-500 hover:bg-accent-600 text-slate-900 font-bold px-8 py-3.5 rounded-2xl shadow-lg hover:shadow-accent-500/30 transition-all text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bag-shopping"></i> Ver Produtos
+                        </a>
+                        <a href="#servicos" class="bg-white/10 hover:bg-white/20 border border-white/20 font-semibold px-8 py-3.5 rounded-2xl transition-all text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-scissors"></i> Nossos Serviços
+                        </a>
+                    </div>
+                </div>
+                <!-- Hero Images Showcase -->
+                <div class="relative flex justify-center items-center">
+                    <div class="relative w-full max-w-lg aspect-square">
+                        <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=800" 
+                            alt="Cão feliz" class="w-3/4 h-3/4 object-cover rounded-3xl shadow-2xl absolute top-0 left-0 border-4 border-white/20 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+                        <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800" 
+                            alt="Gato fofo" class="w-3/4 h-3/4 object-cover rounded-3xl shadow-2xl absolute bottom-0 right-0 border-4 border-white/20 transform rotate-6 hover:rotate-0 transition-transform duration-300">
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-slate-800 p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce-slow border border-gray-100">
+                            <div class="bg-green-100 text-green-600 p-3 rounded-xl">
+                                <i class="fa-solid fa-star text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-500">Avaliação Média</p>
+                                <p class="text-base font-extrabold text-gray-900">4.9 / 5.0 (2.4k+ pets)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Category Navigation Section -->
+        <section id="categorias" class="py-16 container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-600 font-bold text-sm uppercase tracking-wider">Explore por espécie</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Nossas Categorias</h2>
+                <p class="text-slate-600 mt-2">Escolha a categoria ideal para encontrar os melhores alimentos e produtos do seu pet.</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4" id="categoryContainer">
+                <!-- Categories injected via JS -->
+            </div>
+        </section>
+
+        <!-- Interactive Products Showcase Section -->
+        <section id="produtos" class="py-16 bg-slate-100/70 border-y border-slate-200">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+                    <div>
+                        <span class="text-brand-600 font-bold text-sm uppercase tracking-wider">Ofertas Especiais</span>
+                        <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Produtos em Destaque</h2>
+                    </div>
+
+                    <!-- Category Filters for Products -->
+                    <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 hide-scrollbar" id="productFilters">
+                        <!-- Buttons rendered via JS -->
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="productsGrid">
+                    <!-- Dynamic Product Cards injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Services Section -->
+        <section id="servicos" class="py-20 container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brand-600 font-bold text-sm uppercase tracking-wider">Cuidado Profissional</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1">Nossos Serviços Especializados</h2>
+                <p class="text-slate-600 mt-2">Profissionais qualificados e apaixonados prontos para oferecer amor e saúde para seu pet.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="servicesGrid">
+                <!-- Services generated dynamically via JS -->
+            </div>
+        </section>
+
+        <!-- Interactive Loyalty Calculator Widget -->
+        <section id="fidelidade" class="py-16 bg-gradient-to-br from-brand-800 to-purple-950 text-white relative overflow-hidden">
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <span class="bg-accent-500/20 text-accent-400 border border-accent-500/30 font-semibold px-3 py-1 rounded-full text-xs uppercase tracking-wider">
+                            Programa Amigo Mundo Pet
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">
+                            Economize e ganhe prêmios a cada compra!
+                        </h2>
+                        <p class="text-purple-200">
+                            No nosso clube de vantagens, cada R$ 1,00 gasto vale 1 Ponto. Simule ao lado os seus gastos e veja as recompensas que você pode resgatar instantaneamente.
+                        </p>
+                        <ul class="space-y-3 text-purple-100">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-accent-400"></i> Descontos diretos na sua fatura</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-accent-400"></i> Brindes exclusivos nas lojas físicas</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-accent-400"></i> Pontos em dobro na Compra Programada</li>
+                        </ul>
+                    </div>
+
+                    <!-- Simulator Card -->
+                    <div class="bg-white text-slate-800 p-8 rounded-3xl shadow-2xl border border-purple-100">
+                        <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center justify-between">
+                            Simulador de Pontos <i class="fa-solid fa-calculator text-brand-600"></i>
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between font-semibold mb-2 text-sm">
+                                    <span class="text-slate-600">Seu gasto mensal estimado:</span>
+                                    <span class="text-brand-600 font-bold text-lg" id="spendValue">R$ 250</span>
+                                </div>
+                                <input type="range" id="spendSlider" min="50" max="1000" step="10" value="250" 
+                                    class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                <div>
+                                    <span class="text-xs text-slate-500 font-semibold block">Pontos Acumulados</span>
+                                    <span class="text-2xl font-black text-brand-600" id="calcPoints">250 pts</span>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-500 font-semibold block">Desconto Estimado</span>
+                                    <span class="text-2xl font-black text-green-600" id="calcDiscount">R$ 25,00</span>
+                                </div>
+                            </div>
+
+                            <div id="rewardTier" class="p-4 rounded-xl bg-amber-50 text-amber-900 border border-amber-200 text-sm font-medium flex items-center gap-3">
+                                <i class="fa-solid fa-gift text-2xl text-amber-600"></i>
+                                <div>
+                                    <strong class="block text-amber-950">Nível Prata Alcançado!</strong>
+                                    <span>Você tem direito a 1 Banho Grátis + Petisco de Aniversário!</span>
+                                </div>
+                            </div>
+
+                            <a href="#contato" class="block w-full text-center bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl transition-colors shadow-md">
+                                Cadastrar-se Gratuitamente
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customer Gallery & Testimonials Section -->
+        <section id="galeria" class="py-20 container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-600 font-bold text-sm uppercase tracking-wider">Comunidade Pet</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Nossos Clientes Felizes</h2>
+                <p class="text-slate-600 mt-2">Confira a satisfação dos tutores e bichinhos que fazem parte do Mundo Pet.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galleryContainer">
+                <!-- Dynamic Customer Cards with Photos injected via JS -->
+            </div>
+        </section>
+
+        <!-- Modern Dynamic Registration & Booking Form Section -->
+        <section id="contato" class="py-20 bg-slate-100 border-t border-slate-200">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden grid md:grid-cols-5 border border-slate-200">
+                    <!-- Side Promo Info -->
+                    <div class="md:col-span-2 bg-brand-700 text-white p-8 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full font-bold">Atendimento Rápido</span>
+                            <h3 class="text-2xl font-bold mt-4">Agende ou Faça seu Cadastro</h3>
+                            <p class="text-purple-100 text-sm mt-2">Preencha o formulário para garantir horários prioritários nos nossos serviços ou tira dúvidas.</p>
+                        </div>
+                        <div class="space-y-4 my-8 text-sm text-purple-100">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-location-dot text-accent-400 text-lg"></i>
+                                <span>Av. Principal dos Pets, 1000 - Centro</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-phone text-accent-400 text-lg"></i>
+                                <span>(11) 99999-8888</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-envelope text-accent-400 text-lg"></i>
+                                <span>contato@mundopet.com.br</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-purple-200">Respondemos em até 15 minutos via WhatsApp!</p>
+                    </div>
+
+                    <!-- Dynamic Interactive Form -->
+                    <div class="md:col-span-3 p-8">
+                        <form id="contactForm" class="space-y-4" novalidate>
+                            <div>
+                                <label for="nome" class="block text-sm font-semibold text-slate-700 mb-1">Nome Completo</label>
+                                <input type="text" id="nome" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-sm" placeholder="Ex: Maria Silva" required>
+                                <span class="text-red-500 text-xs hidden mt-1" id="errNome">Por favor, digite seu nome completo.</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="telefone" class="block text-sm font-semibold text-slate-700 mb-1">Telefone / WhatsApp</label>
+                                    <input type="tel" id="telefone" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-sm" placeholder="(11) 99999-9999" required>
+                                    <span class="text-red-500 text-xs hidden mt-1" id="errTelefone">Informe um telefone válido.</span>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-semibold text-slate-700 mb-1">E-mail</label>
+                                    <input type="email" id="email" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-sm" placeholder="seu@email.com" required>
+                                    <span class="text-red-500 text-xs hidden mt-1" id="errEmail">Email inválido.</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="tipoServico" class="block text-sm font-semibold text-slate-700 mb-1">Serviço Desejado</label>
+                                    <select id="tipoServico" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-sm bg-white" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="banho">Banho e Tosa</option>
+                                        <option value="vet">Consulta Veterinária</option>
+                                        <option value="adestramento">Adestramento</option>
+                                        <option value="hospedagem">Hospedagem Pet</option>
+                                        <option value="duvidas">Dúvidas Gerais</option>
+                                    </select>
+                                    <span class="text-red-500 text-xs hidden mt-1" id="errServico">Selecione uma opção.</span>
+                                </div>
+                                <div>
+                                    <label for="dataAgendamento" class="block text-sm font-semibold text-slate-700 mb-1">Data Preferencial</label>
+                                    <input type="date" id="dataAgendamento" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-sm bg-white">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="mensagem" class="block text-sm font-semibold text-slate-700 mb-1">Detalhes / Observações do Pet</label>
+                                <textarea id="mensagem" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-sm" placeholder="Conte mais sobre a raça, porte do pet ou necessidade..."></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full bg-accent-500 hover:bg-accent-600 text-slate-900 font-bold py-3.5 rounded-xl transition-all shadow-md text-base flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i> Enviar Solicitação
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-800 text-white pt-12 pb-6 border-t border-purple-900">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="space-y-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-accent-500 rounded-xl flex items-center justify-center text-slate-900">
+                        <i class="fa-solid fa-paw"></i>
+                    </div>
+                    <span class="text-xl font-bold">Mundo Pet</span>
+                </div>
+                <p class="text-purple-200 text-sm">Oferecendo carinho, saúde e conveniência para seu animal de estimação há mais de 10 anos.</p>
+                <div class="flex space-x-3 text-lg">
+                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-accent-500 hover:text-slate-900 flex items-center justify-center transition-all"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-accent-500 hover:text-slate-900 flex items-center justify-center transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-accent-500 hover:text-slate-900 flex items-center justify-center transition-all"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold mb-4 text-accent-400">Links Rápidos</h4>
+                <ul class="space-y-2 text-sm text-purple-200">
+                    <li><a href="#home" class="hover:text-white transition-colors">Início</a></li>
+                    <li><a href="#produtos" class="hover:text-white transition-colors">Loja Online</a></li>
+                    <li><a href="#servicos" class="hover:text-white transition-colors">Nossos Serviços</a></li>
+                    <li><a href="#fidelidade" class="hover:text-white transition-colors">Clube de Vantagens</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold mb-4 text-accent-400">Serviços</h4>
+                <ul class="space-y-2 text-sm text-purple-200">
+                    <li>Banho e Tosa Completo</li>
+                    <li>Clínica Veterinária 24h</li>
+                    <li>Hotel e Creche Pet</li>
+                    <li>Adestramento Positivo</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold mb-4 text-accent-400">Horário de Funcionamento</h4>
+                <p class="text-sm text-purple-200">Lojas Físicas:</p>
+                <p class="text-xs text-purple-300 font-semibold mb-2">Segunda a Sábado: 08:00 - 20:00</p>
+                <p class="text-sm text-purple-200">Emergência Vet:</p>
+                <p class="text-xs text-purple-300 font-semibold">Atendimento 24 Horas</p>
+            </div>
+        </div>
+        <div class="container mx-auto px-4 pt-6 border-t border-purple-700/50 text-center text-xs text-purple-300">
+            <p>&copy; 2026 Mundo Pet. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Drawer (Slide-over Modal) -->
+    <div id="cartModal" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" id="closeCartBg"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300" id="cartDrawer">
+            <div class="p-4 bg-brand-700 text-white flex justify-between items-center">
+                <h3 class="font-bold text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-basket-shopping text-accent-400"></i> Seu Carrinho
+                </h3>
+                <button id="closeCartBtn" class="text-purple-200 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Cart Content List -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-4" id="cartItemsContainer">
+                <!-- Cart Items generated by JS -->
+            </div>
+
+            <!-- Cart Footer Summary -->
+            <div class="p-4 border-t border-slate-200 bg-slate-50 space-y-3">
+                <div class="flex justify-between text-sm text-slate-600">
+                    <span>Subtotal</span>
+                    <span font-semibold id="cartSubtotal">R$ 0,00</span>
+                </div>
+                <div class="flex justify-between text-sm text-green-600">
+                    <span>Desconto Amigo Pet (10%)</span>
+                    <span id="cartDiscount">- R$ 0,00</span>
+                </div>
+                <div class="flex justify-between text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">
+                    <span>Total</span>
+                    <span id="cartTotal" class="text-brand-600">R$ 0,00</span>
+                </div>
+                <button id="checkoutBtn" class="w-full bg-accent-500 hover:bg-accent-600 text-slate-900 font-bold py-3 rounded-xl transition-colors shadow-md">
+                    Finalizar Compra
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Toast / Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-green-400 text-xl" id="toastIcon"></i>
+        <span id="toastMsg" class="text-sm font-medium">Item adicionado com sucesso!</span>
+    </div>
+
+    <!-- JavaScript Data and State Management -->
+    <script>
+        // Data Structures
+        const CATEGORIES = [
+            { id: 'caes', name: 'Cães', icon: 'fa-dog', color: 'bg-amber-100 text-amber-600' },
+            { id: 'gatos', name: 'Gatos', icon: 'fa-cat', color: 'bg-purple-100 text-purple-600' },
+            { id: 'passaros', name: 'Pássaros', icon: 'fa-dove', color: 'bg-blue-100 text-blue-600' },
+            { id: 'peixes', name: 'Peixes', icon: 'fa-fish', color: 'bg-cyan-100 text-cyan-600' },
+            { id: 'roedores', name: 'Roedores', icon: 'fa-otter', color: 'bg-emerald-100 text-emerald-600' },
+            { id: 'outros', name: 'Acessórios', icon: 'fa-bone', color: 'bg-rose-100 text-rose-600' },
+        ];
+
+        const PRODUCTS = [
+            {
+                id: 1,
+                name: "Ração Úmida Origem Natural Gatos Adultos Carne",
+                category: "gatos",
+                brand: "Origem Natural",
+                weight: "85 g",
+                oldPrice: 2.99,
+                price: 2.69,
+                discount: 10,
+                img: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                id: 2,
+                name: "Antipulgas Simparic 5 a 10kg Cães 20mg",
+                category: "caes",
+                brand: "Simparic",
+                weight: "1 comprimido",
+                oldPrice: 110.90,
+                price: 77.63,
+                discount: 30,
+                img: "https://images.unsplash.com/photo-1608408891486-f5fd9f622533?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                id: 3,
+                name: "Areia Sanitária Pipicat Classic para Gatos",
+                category: "gatos",
+                brand: "Pipicat",
+                weight: "4 kg",
+                oldPrice: 17.90,
+                price: 15.90,
+                discount: 11,
+                img: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                id: 4,
+                name: "Ração Golden Special para Cães Adultos Frango",
+                category: "caes",
+                brand: "Golden",
+                weight: "15 kg",
+                oldPrice: 149.90,
+                price: 134.91,
+                discount: 10,
+                img: "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                id: 5,
+                name: "Ração para Pássaros Nutrópica Seleção Natural",
+                category: "passaros",
+                brand: "Nutrópica",
+                weight: "300 g",
+                oldPrice: 35.90,
+                price: 29.90,
+                discount: 16,
+                img: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                id: 6,
+                name: "Ração TetraMin Tropical Flakes para Peixes",
+                category: "peixes",
+                brand: "Tetra",
+                weight: "52 g",
+                oldPrice: 42.00,
+                price: 36.50,
+                discount: 13,
+                img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&q=80&w=400"
+            }
+        ];
+
+        const SERVICES = [
+            {
+                title: "Banho & Tosa Especializado",
+                desc: "Higiene completa, corte de unhas, limpeza de ouvidos e produtos hipoalergênicos de alta qualidade.",
+                icon: "fa-shower",
+                tag: "Mais Popular"
+            },
+            {
+                title: "Atendimento Veterinário",
+                desc: "Consultas de rotina, vacinação em dia, exames laboratoriais e cirurgias com profissionais dedicados.",
+                icon: "fa-user-nurse",
+                tag: "24 Horas"
+            },
+            {
+                title: "Adestramento Comportamental",
+                desc: "Aulas personalizadas com reforço positivo para socialização e obediência e bem-estar do pet.",
+                icon: "fa-award",
+                tag: "Personalizado"
+            },
+            {
+                title: "Hospedagem & Creche Pet",
+                desc: "Ambiente amplo, monitorado 24h com recreação diária para o seu bichinho brincar enquanto você viaja.",
+                icon: "fa-hotel",
+                tag: "Espaço Amplo"
+            },
+            {
+                title: "Dog Walker (Passeios)",
+                desc: "Passeios estruturados para gasto de energia e estimulação mental da saúde do seu cão.",
+                icon: "fa-dog",
+                tag: "Diário"
+            },
+            {
+                title: "Consultoria em Adoção",
+                desc: "Te ajudamos a encontrar o novo membro da família e orientamos o processo de adaptação.",
+                icon: "fa-heart",
+                tag: "Gratuito"
+            }
+        ];
+
+        const CUSTOMERS = [
+            { name: "Thor", breed: "Golden Retriever", owner: "Luciana M.", img: "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=400", text: "Atendimento incrível no Banho e Tosa! O Thor sempre volta super cheiroso e feliz." },
+            { name: "Simba", breed: "Gato Persa", owner: "Rafael A.", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=400", text: "A ração de origem natural recomendada pelo vet salvou a digestão do Simba!" },
+            { name: "Pipoca", breed: "Calopsita", owner: "Camila S.", img: "https://images.unsplash.com/photo-1522858547137-f1dcec554f55?auto=format&fit=crop&q=80&w=400", text: "Encontro tudo para os meus pássaros com entregas ultra rápidas." }
+        ];
+
+        // State Management
+        let cart = [];
+        let selectedCategoryFilter = 'all';
+
+        // DOM Elements
+        const productsGrid = document.getElementById('productsGrid');
+        const productFilters = document.getElementById('productFilters');
+        const categoryContainer = document.getElementById('categoryContainer');
+        const servicesGrid = document.getElementById('servicesGrid');
+        const galleryContainer = document.getElementById('galleryContainer');
+        const cartBadge = document.getElementById('cartBadge');
+        const cartModal = document.getElementById('cartModal');
+        const cartDrawer = document.getElementById('cartDrawer');
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const cartSubtotal = document.getElementById('cartSubtotal');
+        const cartDiscount = document.getElementById('cartDiscount');
+        const cartTotal = document.getElementById('cartTotal');
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            renderProductFilterButtons();
+            renderProducts();
+            renderServices();
+            renderGallery();
+            setupLoyaltyCalculator();
+            setupFormValidation();
+            setupEventListeners();
+        });
+
+        // Render Functions
+        function renderCategories() {
+            categoryContainer.innerHTML = CATEGORIES.map(cat => `
+                <div onclick="filterByCategory('${cat.id}')" class="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md border border-slate-200 text-center cursor-pointer transition-all hover:-translate-y-1 group">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-xl ${cat.color} flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid ${cat.icon}"></i>
+                    </div>
+                    <span class="font-bold text-slate-800 group-hover:text-brand-600 transition-colors">${cat.name}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderProductFilterButtons() {
+            const filters = [{ id: 'all', label: 'Todos' }, ...CATEGORIES.map(c => ({ id: c.id, label: c.name }))];
+            productFilters.innerHTML = filters.map(f => `
+                <button onclick="filterByCategory('${f.id}')" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all whitespace-nowrap ${selectedCategoryFilter === f.id ? 'bg-brand-600 text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-200'}">
+                    ${f.label}
+                </button>
+            `).join('');
+        }
+
+        function filterByCategory(catId) {
+            selectedCategoryFilter = catId;
+            renderProductFilterButtons();
+            renderProducts();
+            document.getElementById('produtos').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderProducts() {
+            const query = document.getElementById('globalSearch').value.toLowerCase();
+            const filtered = PRODUCTS.filter(p => {
+                const matchesCategory = selectedCategoryFilter === 'all' || p.category === selectedCategoryFilter;
+                const matchesQuery = p.name.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query);
+                return matchesCategory && matchesQuery;
+            });
+
+            if (filtered.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fa-solid fa-paw text-4xl text-slate-300 mb-3"></i>
+                        <p class="text-slate-500 font-medium">Nenhum produto encontrado nesta categoria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            productsGrid.innerHTML = filtered.map(p => `
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between border border-slate-200 group">
+                    <div class="relative overflow-hidden bg-slate-100 h-48">
+                        <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">
+                            -${p.discount}%
+                        </span>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">${p.brand}</span>
+                            <h3 class="font-bold text-slate-800 text-sm mt-1 line-clamp-2">${p.name}</h3>
+                            <p class="text-xs text-slate-400 mt-1">${p.weight}</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-slate-400 line-through">R$ ${p.oldPrice.toFixed(2).replace('.', ',')}</span>
+                                <div class="text-lg font-black text-slate-900">R$ ${p.price.toFixed(2).replace('.', ',')}</div>
+                            </div>
+                            <button onclick="addToCart(${p.id})" class="bg-brand-600 hover:bg-brand-700 text-white p-2.5 rounded-xl shadow-md transition-all hover:scale-105">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderServices() {
+            servicesGrid.innerHTML = SERVICES.map(s => `
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all border border-slate-200 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-14 h-14 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                                <i class="fa-solid ${s.icon}"></i>
+                            </div>
+                            <span class="text-xs font-bold px-3 py-1 bg-amber-100 text-amber-800 rounded-full">${s.tag}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">${s.title}</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">${s.desc}</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <a href="#contato" class="text-brand-600 font-bold text-sm inline-flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                            Agendar Agora <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderGallery() {
+            galleryContainer.innerHTML = CUSTOMERS.map(c => `
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="${c.img}" alt="${c.name}" class="w-14 h-14 rounded-2xl object-cover shadow-md">
+                            <div>
+                                <h4 class="font-bold text-slate-900">${c.name}</h4>
+                                <p class="text-xs text-slate-500">${c.breed} • Tutor: ${c.owner}</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 text-sm italic">"${c.text}"</p>
+                    </div>
+                    <div class="mt-4 flex text-amber-400 text-xs gap-1">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Shopping Cart Logic
+        function addToCart(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`"${product.name.slice(0, 20)}..." adicionado ao carrinho!`);
+        }
+
+        function updateCartQty(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+
+            item.qty += change;
+            if (item.qty <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+            cartBadge.innerText = totalItems;
+            cartBadge.classList.toggle('scale-0', totalItems === 0);
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-3"></i>
+                        <p class="text-sm font-medium">Seu carrinho está vazio.</p>
+                    </div>
+                `;
+            } else {
+                cartItemsContainer.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                        <img src="${item.img}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-xs text-slate-800 truncate">${item.name}</h4>
+                            <p class="text-xs font-bold text-brand-600 mt-1">R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</p>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-2 py-1 rounded-xl border border-slate-200">
+                            <button onclick="updateCartQty(${item.id}, -1)" class="text-slate-500 hover:text-slate-800 px-1 font-bold">-</button>
+                            <span class="text-xs font-bold">${item.qty}</span>
+                            <button onclick="updateCartQty(${item.id}, 1)" class="text-slate-500 hover:text-slate-800 px-1 font-bold">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const sub = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const disc = sub * 0.10; // 10% Loyalty discount simulation
+            const total = sub - disc;
+
+            cartSubtotal.innerText = `R$ ${sub.toFixed(2).replace('.', ',')}`;
+            cartDiscount.innerText = `- R$ ${disc.toFixed(2).replace('.', ',')}`;
+            cartTotal.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        // Interactive Loyalty Calculator
+        function setupLoyaltyCalculator() {
+            const slider = document.getElementById('spendSlider');
+            const spendVal = document.getElementById('spendValue');
+            const calcPoints = document.getElementById('calcPoints');
+            const calcDiscount = document.getElementById('calcDiscount');
+            const rewardTier = document.getElementById('rewardTier');
+
+            slider.addEventListener('input', (e) => {
+                const val = parseInt(e.target.value);
+                spendVal.innerText = `R$ ${val}`;
+                calcPoints.innerText = `${val} pts`;
+                calcDiscount.innerText = `R$ ${(val * 0.10).toFixed(2).replace('.', ',')}`;
+
+                if (val < 200) {
+                    rewardTier.innerHTML = `
+                        <i class="fa-solid fa-award text-2xl text-amber-600"></i>
+                        <div>
+                            <strong class="block text-amber-950">Nível Bronze</strong>
+                            <span>Resgate petiscos grátis no seu aniversário!</span>
+                        </div>
+                    `;
+                } else if (val < 500) {
+                    rewardTier.innerHTML = `
+                        <i class="fa-solid fa-gift text-2xl text-amber-600"></i>
+                        <div>
+                            <strong class="block text-amber-950">Nível Prata Alcançado!</strong>
+                            <span>Você ganha 1 Banho Grátis + Brindes Exclusivos!</span>
+                        </div>
+                    `;
+                } else {
+                    rewardTier.innerHTML = `
+                        <i class="fa-solid fa-crown text-2xl text-amber-600"></i>
+                        <div>
+                            <strong class="block text-amber-950">Nível Ouro VIP!</strong>
+                            <span>Frete GRÁTIS ilimitado + 15% OFF em todas as compras!</span>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // Form Validation & Handling
+        function setupFormValidation() {
+            const form = document.getElementById('contactForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let valid = true;
+
+                const nome = document.getElementById('nome');
+                const telefone = document.getElementById('telefone');
+                const email = document.getElementById('email');
+                const servico = document.getElementById('tipoServico');
+
+                if (nome.value.trim().length < 3) {
+                    document.getElementById('errNome').classList.remove('hidden');
+                    valid = false;
+                } else {
+                    document.getElementById('errNome').classList.add('hidden');
+                }
+
+                if (telefone.value.trim().length < 8) {
+                    document.getElementById('errTelefone').classList.remove('hidden');
+                    valid = false;
+                } else {
+                    document.getElementById('errTelefone').classList.add('hidden');
+                }
+
+                if (!email.value.includes('@')) {
+                    document.getElementById('errEmail').classList.remove('hidden');
+                    valid = false;
+                } else {
+                    document.getElementById('errEmail').classList.add('hidden');
+                }
+
+                if (!servico.value) {
+                    document.getElementById('errServico').classList.remove('hidden');
+                    valid = false;
+                } else {
+                    document.getElementById('errServico').classList.add('hidden');
+                }
+
+                if (valid) {
+                    showToast("Solicitação enviada! Entraremos em contato via WhatsApp.");
+                    form.reset();
+                }
+            });
+        }
+
+        // UI Helpers
+        function setupEventListeners() {
+            // Cart Toggle
+            const cartBtn = document.getElementById('cartBtn');
+            const closeCartBtn = document.getElementById('closeCartBtn');
+            const closeCartBg = document.getElementById('closeCartBg');
+
+            const toggleCart = (show) => {
+                if (show) {
+                    cartModal.classList.remove('invisible', 'opacity-0');
+                    cartDrawer.classList.remove('translate-x-full');
+                } else {
+                    cartModal.classList.add('invisible', 'opacity-0');
+                    cartDrawer.classList.add('translate-x-full');
+                }
+            };
+
+            cartBtn.addEventListener('click', () => toggleCart(true));
+            closeCartBtn.addEventListener('click', () => toggleCart(false));
+            closeCartBg.addEventListener('click', () => toggleCart(false));
+
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Global Search Listener
+            document.getElementById('globalSearch').addEventListener('input', renderProducts);
+
+            // Checkout Simulated Event
+            document.getElementById('checkoutBtn').addEventListener('click', () => {
+                if (cart.length === 0) {
+                    showToast("Adicione produtos ao carrinho antes de finalizar!");
+                    return;
+                }
+                showToast("Pedido realizado com sucesso! Obrigado pela preferência.");
+                cart = [];
+                updateCartUI();
+                toggleCart(false);
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
